@@ -3,22 +3,17 @@ from keras.models import load_model
 import tensorflow as tf
 import numpy as np
 import heapq
+from flask import render_template
+from flask import jsonify
+from flask import request
 
 app = Flask(__name__)
 
-model = None
-graph = None
-
 def load_keras_model():
-    """Load in the pre-trained model"""
-    global model
     # model = load_model('D:/Predictive-Text/Best Model/Character Prediction/weights-improvement-10-0.6166.hdf5')
-    model = load_model('D:/Predictive-Text/models/Trump/20200323-185226/weights-improvement-02-0.5946.hdf5')
-    # Required for model to work
-    # global graph
-    # graph = tf.get_default_graph()
+    return load_model('D:/Predictive-Text/models/Trump/20200323-185226/weights-improvement-02-0.5946.hdf5')
 
-load_keras_model()
+model = load_keras_model()
 
 SEQUENCE_LENGTH = 60
 
@@ -68,9 +63,6 @@ def predict_completions(text, n=3):
     return [indices_char[idx] + predict_completion(text[1:] + indices_char[idx]) for idx in next_indices]
 
 
-text = 'Today I spoke with American physicians and nurses to thank them for their tireless work. Doctors and nurses are at the front lines of this war and are true American HEROES! With their help, America will WIN.'
-print(text[-20:])
-
 def genSentence(text, words = 2):
     textOG = text
     text = text.lower()
@@ -86,10 +78,38 @@ def genSentence(text, words = 2):
         pass
     return textOG
 
-print(genSentence("Today I will never", 10))
+# print(genSentence("Today I will never", 10))
 
+def padInput(text):
+    while len(text) < SEQUENCE_LENGTH:
+        text = ' ' + text
+    text = text[-SEQUENCE_LENGTH:]
+    return text
+
+def NSMW(text, n, m):
+    textOG = text
+    text = text.lower()
+    while len(text) < SEQUENCE_LENGTH:
+        text = ' ' + text
+    text = text[-SEQUENCE_LENGTH:]
+    for i in range(n):
+        x = prepare_input(text.lower())
+        preds = model.predict(x, verbose=0)[0]
+        next_index = sample(preds, top_n=m)
+        sentences = []
+        for char in next_index:
+            sentences.append(genSentence(textOG+indices_char[char], n))
+        pass
+    return sentences
+
+@app.route('/predict')
+def predict():
+    c = request.args.get('a', 1, type=str)
+    sentences = NSMW(c, 3, 5)
+    print(sentences)
+    return jsonify(result=sentences)
 
 @app.route("/")
-def hello():
-    return "<h1>Not Much Going On Here</h1>"
+def index():
+    return render_template('index.html')
 app.run(host='0.0.0.0', port=50000)
