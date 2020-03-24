@@ -42,8 +42,17 @@ jQuery(document).ready(function() {
     console.log('Reseting Timer');
     resetTimer()
   })
+  $("#resultsHook").css("display", "none");
 
   $('.search-button').click(function() {
     $(this).parent().toggleClass('open');
+    if ($('#resultsHook').css('display') == 'none') {
+      console.log("test");
+      $("#resultsHook").css("display", "block");
+    } else {
+      $("#resultsHook").css("display", "none");
+      $("#resultsHook").empty()
+      $('input[id="search"]').val('')
+    }
   });
 });

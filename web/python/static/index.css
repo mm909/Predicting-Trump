@@ -9,6 +9,7 @@
 body {
   background: #2a2e37;
 }
+
 .search {
   width: 100px;
   height: 100px;
@@ -58,6 +59,7 @@ body {
   padding: 20px;
   cursor: pointer;
 }
+
 .search-icon {
   width: 40px;
   height: 40px;
@@ -68,6 +70,7 @@ body {
   margin-left: 5px;
   transition: all 0.5s ease;
 }
+
 .search-icon:before {
   content: "";
   width: 3px;
@@ -111,6 +114,7 @@ body {
   height: 18px;
 }
 
+
 .results {
   width: 60%;
   margin: auto;
@@ -135,8 +139,6 @@ body {
   margin: 0px;
   padding: 10px 10px;
 }
-
-
 
 .title {
   color: #cd7040;
