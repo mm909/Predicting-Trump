@@ -1,0 +1,20 @@
+Seed: 'China is a'
+Output: 'China is a total crisis and the story in the same thing that i was a great and i will be interviewed by @seanhannity to the @whitehouse!'
+
+Seed: 'I will always'
+Output: 'I will always stop the state of the state of michigan in the state of michigan'
+
+Seed: 'I will never'
+Output: 'I will never forget them and the story in the state of mississippies'
+
+Seed: 'I need to be very'
+Output: 'I need to be very well. thank you! @barbarkshow thanks for the senate and the story is a total win'
+
+Seed: 'Did you know that I'
+Output: 'Did you know that I will be interviewed by @seanhannity to the @whitehouse!'
+
+Seed: 'The whitehouse'
+Output: 'The whitehouse is not for the state of michigan'
+
+Seed: 'Women'
+Output: 'Women and good luck to the senate'
