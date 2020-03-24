@@ -1,11 +1,11 @@
 Seed: 'China is a'
-Output: 'China is a total crisis and the story in the same thing that i was a great and i will be interviewed by @seanhannity to the @whitehouse!'
+Output: 'China is a total crisis and the story in the same thing that I was a great and I will be interviewed by @seanhannity to the @whitehouse!'
 
 Seed: 'I will always'
-Output: 'I will always stop the state of the state of michigan in the state of michigan'
+Output: 'I will always stop the state of the state of Michigan in the state of Michigan'
 
 Seed: 'I will never'
-Output: 'I will never forget them and the story in the state of mississippies'
+Output: 'I will never forget them and the story in the state of Mississippies'
 
 Seed: 'I need to be very'
 Output: 'I need to be very well. thank you! @barbarkshow thanks for the senate and the story is a total win'
@@ -13,11 +13,14 @@ Output: 'I need to be very well. thank you! @barbarkshow thanks for the senate a
 Seed: 'Did you know that I'
 Output: 'Did you know that I will be interviewed by @seanhannity to the @whitehouse!'
 
-Seed: 'The whitehouse'
-Output: 'The whitehouse is not for the state of michigan'
+Seed: 'The Whitehouse'
+Output: 'The Whitehouse is not for the state of Michigan'
 
 Seed: 'Women'
 Output: 'Women and good luck to the senate'
 
 Seed: 'Today I will never'
 Output: 'Today I will never see the president'
+
+Seed: 'Today I will'
+Output: 'Today I will be the world -- I think.'
