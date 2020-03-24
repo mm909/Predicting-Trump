@@ -18,3 +18,6 @@ Output: 'The whitehouse is not for the state of michigan'
 
 Seed: 'Women'
 Output: 'Women and good luck to the senate'
+
+Seed: 'Today I will never'
+Output: 'Today I will never see the president'
