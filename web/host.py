@@ -11,15 +11,16 @@ app = Flask(__name__)
 
 def load_keras_model():
     # model = load_model('D:/Predictive-Text/Best Model/Character Prediction/weights-improvement-10-0.6166.hdf5')
-    return load_model('D:/Predictive-Text/models/Trump/20200323-185226/weights-improvement-02-0.5946.hdf5')
+    return load_model('D:/Predictive-Text/Best Model/Trump.hdf5')
+
 
 model = load_keras_model()
 
-SEQUENCE_LENGTH = 60
+SEQUENCE_LENGTH = 20
 
 # Gettings data
-tweets = '../data/trump/tweets/trumpClean2.txt'
-speeches = '../data/trump/speeches/textClean.txt'
+speeches = '../data/trump/speeches/clean/cleanSpeech.txt'
+tweets = '../data/trump/tweets/clean/cleanTweets.txt'
 text = open(tweets, encoding="utf8").read().lower()
 text = text + open(speeches, encoding="utf8").read().lower()
 print('corpus length:', len(text))
@@ -27,6 +28,14 @@ print('corpus length:', len(text))
 chars = sorted(list(set(text)))
 char_indices = dict((c, i) for i, c in enumerate(chars))
 indices_char = dict((i, c) for i, c in enumerate(chars))
+
+def temperatureSample(preds, temperature=0.01):
+    preds = np.asarray(preds).astype('float64')
+    preds = np.log(preds) / temperature
+    exp_preds = np.exp(preds)
+    preds = exp_preds / np.sum(exp_preds)
+    probas = np.random.multinomial(1, preds, 1)
+    return np.argmax(probas)
 
 def sample(preds, top_n=3):
     preds = np.asarray(preds).astype('float64')
@@ -92,20 +101,19 @@ def NSMW(text, n, m):
     while len(text) < SEQUENCE_LENGTH:
         text = ' ' + text
     text = text[-SEQUENCE_LENGTH:]
-    for i in range(n):
-        x = prepare_input(text.lower())
-        preds = model.predict(x, verbose=0)[0]
-        next_index = sample(preds, top_n=m)
-        sentences = []
-        for char in next_index:
-            sentences.append(genSentence(textOG+indices_char[char], n))
-        pass
+    sentences = []
+    x = prepare_input(text.lower())
+    preds = model.predict(x, verbose=0)[0]
+    next_index = sample(preds, top_n=m)
+    for char in next_index:
+        sentences.append(genSentence(textOG+indices_char[char], n))
+    pass
     return sentences
 
 @app.route('/predict')
 def predict():
     c = request.args.get('a', 1, type=str)
-    sentences = NSMW(c, 3, 5)
+    sentences = NSMW(c, 10, 10)
     print(sentences)
     return jsonify(result=sentences)
 

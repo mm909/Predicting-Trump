@@ -10,6 +10,12 @@ body {
   background: #2a2e37;
 }
 
+.Timer {
+  text-align: center;
+  color: #cd7040;
+  margin: 0px;
+}
+
 .search {
   width: 100px;
   height: 100px;

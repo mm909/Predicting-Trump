@@ -1,0 +1,5 @@
+Text Generation with Keras and TensorFlow (10.3)
+  https://www.youtube.com/watch?v=6ORnRAz3gnA
+  https://github.com/jeffheaton/t81_558_deep_learning/blob/master/t81_558_class_10_3_text_generation.ipynb
+
+https://www.youtube.com/watch?v=QJ72rg2-rNk

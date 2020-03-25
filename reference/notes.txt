@@ -1,0 +1,7 @@
+1. Try a CNN instead of an RNN
+2. Add word embeddings to RNN
+3. Make text generators to get more data
+4. Finish scraping from factbase
+
+
+45Talks.com

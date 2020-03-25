@@ -5,10 +5,12 @@ from bs4 import BeautifulSoup
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.action_chains import ActionChains
-
+from selenium.webdriver.chrome.options import Options
 
 print("Starting Chrome")
-driver = webdriver.Chrome("E:/chromedriver/chromedriver.exe")
+chrome_options = Options()
+chrome_options.add_argument("--headless")
+driver = webdriver.Chrome("E:/chromedriver/chromedriver.exe",options=chrome_options)
 driver.get('https://factba.se/transcripts')
 actions = ActionChains(driver)
 
@@ -47,7 +49,7 @@ for listItem in item:
     text = text + listItem.find_element_by_xpath("./div[3]/div/div[2]/a").text + " "
 
 print("Writting text...")
-tc = open("../data/trump/speeches/factbase/"+title+".txt","w", encoding="utf8")
+tc = open("../data/trump/speeches/raw/factbase/"+title+".txt","w", encoding="utf8")
 tc.write(text)
 
 driver.execute_script("window.history.go(-1)");
