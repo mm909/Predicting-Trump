@@ -58,10 +58,10 @@ def predict_completions(text, n=3):
 timestr = time.strftime("%Y%m%d-%H%M%S")
 
 # Gettings data
-# speeches = 'data/trump/speeches/clean/cleanSpeech.txt'
+speeches = 'data/trump/speeches/clean/cleanSpeech.txt'
 tweets = 'data/trump/tweets/clean/cleanTweets.txt'
 text = open(tweets, encoding="utf8").read().lower()
-# text = text + open(speeches, encoding="utf8").read().lower()
+text = text + open(speeches, encoding="utf8").read().lower()
 print('corpus length:', len(text))
 
 chars = sorted(list(set(text)))
@@ -95,23 +95,22 @@ copyfile('main.py', "models/Trump/" + str(timestr) + "/main.py")
 reduce_lr = keras.callbacks.callbacks.ReduceLROnPlateau(monitor='val_accuracy', factor=0.7, patience=2, min_lr=0.00001)
 checkpoint = keras.callbacks.callbacks.ModelCheckpoint(filepath, monitor='val_accuracy', verbose=1, save_best_only=True, mode='max')
 
-
 # model = load_model('D:/Predictive-Text/models/Trump/20200324-181225/weights-improvement-01-0.6565.hdf5')
-# model = load_model('D:/Predictive-Text/models/Trump/20200324-214657/weights-improvement-01-0.5648.hdf5')
+model = load_model('D:/Predictive-Text/models/Trump/20200324-204855/weights-improvement-01-0.6619.hdf5')
 
 # Making Model
-model = Sequential()
-
-model.add(GRU(len(chars) * 5, input_shape=(SEQUENCE_LENGTH, len(chars))))
-
-model.add(Dense(len(chars) * 3))
-model.add(Dense(len(chars) * 2))
-
-model.add(Dense(len(chars)))
-model.add(Activation('softmax'))
-
-optimizer = RMSprop(lr=0.001)
-model.compile(loss='categorical_crossentropy', optimizer=optimizer, metrics=['accuracy'])
+# model = Sequential()
+#
+# model.add(GRU(len(chars) * 5, input_shape=(SEQUENCE_LENGTH, len(chars))))
+#
+# model.add(Dense(len(chars) * 3))
+# model.add(Dense(len(chars) * 2))
+#
+# model.add(Dense(len(chars)))
+# model.add(Activation('softmax'))
+#
+# optimizer = RMSprop(lr=0.001)
+# model.compile(loss='categorical_crossentropy', optimizer=optimizer, metrics=['accuracy'])
 
 with open("models/Trump/" + str(timestr) + "/" + 'index.txt', 'w') as file:
     file.write('\ncorpus length: ' + str(len(text)))
