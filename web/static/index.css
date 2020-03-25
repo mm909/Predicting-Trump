@@ -10,11 +10,17 @@ body {
   background: #2a2e37;
 }
 
-.Timer {
+.stats {
+  justify-content: center;
   text-align: center;
-  color: #cd7040;
-  margin: 0px;
+  color: #ddd;
 }
+
+.stats p {
+  display: inline-block;
+}
+
+
 
 .search {
   width: 100px;

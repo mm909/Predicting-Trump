@@ -36,17 +36,33 @@ function predict() {
       attachEvents()
       End = new Date();
       EndTime = End.getTime();
-      console.log((EndTime - StartTime) / 1000);
+      // console.log((EndTime - StartTime) / 1000);
       clearInterval(timeInterval)
       $('.Timer').text((EndTime - StartTime) / 1000 + " Seconds")
+      $('.Sentences').text(data.result.length + " Sentences")
+
+      chars = 0;
+      for (var i = 0; i < data.result.length; i++) {
+        chars += data.result[i].length - $('input[id="search"]').val().length
+      }
+      $('.Letters').text(chars + " Letters")
+
+
+
     });
   } else {
     $("#resultsHook").empty()
     clearInterval(timeInterval)
-    $('.Timer').text(0.00 + " Seconds")
+    clearStats()
   }
 
   return false;
+}
+
+function clearStats() {
+  $('.Timer').text("0.00 Seconds")
+  $('.Sentences').text("0 Sentences")
+  $('.Letters').text("0 Letters")
 }
 
 function attachEvents() {
@@ -71,6 +87,7 @@ jQuery(document).ready(function() {
       // console.log("test");
       $("#resultsHook").css("display", "block");
     } else {
+      clearStats()
       $("#resultsHook").css("display", "none");
       $("#resultsHook").empty()
       $('input[id="search"]').val('')
