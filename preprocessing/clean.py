@@ -1,4 +1,5 @@
 import re
+import os
 # from pycontractions import Contractions
 
 # def expandContractions(text):
@@ -35,7 +36,7 @@ def removeLF(text):
     text = re.sub(' [ ]*', ' ', text)
     return text
 
-path = '../data/trump/speeches/text.txt'
+path = '../data/trump/speeches/clean/concatSpeech.txt'
 text = open(path, encoding="utf8").read().lower()
 text = removeLinks(text)
 text = removeEmojis(text)
@@ -44,9 +45,10 @@ text = removeSpeaker(text)
 text = removeLF(text)
 # text = expandContractions(text)
 
-tc = open("../data/trump/speeches/textClean.txt","w", encoding="utf8")
+tc = open("../data/trump/speeches/clean/cleanSpeech.txt","w", encoding="utf8")
 tc.write(text)
 
+os.remove("../data/trump/speeches/clean/concatSpeech.txt")
 
 # Tweets + Github Speeches + 20 Most recent
 # corpus length: 23321467

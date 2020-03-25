@@ -22,7 +22,7 @@ for Speech in listOfSpeeches:
     pass
 print("Number of speeches: " + str(len(listOfSpeeches)))
 
-speech = listOfSpeeches[0]
+speech = listOfSpeeches[2]
 actions.move_to_element(speech).perform()
 item = speech.find_element_by_xpath("./div[2]")
 item.click()

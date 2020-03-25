@@ -7,7 +7,7 @@ import numpy as np
 import tensorflow as tf
 from shutil import copyfile
 from keras.models import Sequential, load_model
-from keras.layers import Dense, Activation, LSTM, Dropout, GRU, TimeDistributed
+from keras.layers import Dense, Activation, LSTM, Dropout, GRU, TimeDistributed, BatchNormalization
 from keras.layers.core import Dense, Activation, Dropout, RepeatVector
 from keras.optimizers import RMSprop
 
@@ -96,28 +96,38 @@ reduce_lr = keras.callbacks.callbacks.ReduceLROnPlateau(monitor='val_accuracy', 
 checkpoint = keras.callbacks.callbacks.ModelCheckpoint(filepath, monitor='val_accuracy', verbose=1, save_best_only=True, mode='max')
 
 # model = load_model('D:/Predictive-Text/models/Trump/20200324-181225/weights-improvement-01-0.6565.hdf5')
-model = load_model('D:/Predictive-Text/models/Trump/20200324-204855/weights-improvement-01-0.6619.hdf5')
+# model = load_model('D:/Predictive-Text/models/Trump/20200324-204855/weights-improvement-01-0.6619.hdf5')
 
 # Making Model
-# model = Sequential()
-#
-# model.add(GRU(len(chars) * 5, input_shape=(SEQUENCE_LENGTH, len(chars))))
-#
-# model.add(Dense(len(chars) * 3))
-# model.add(Dense(len(chars) * 2))
-#
-# model.add(Dense(len(chars)))
-# model.add(Activation('softmax'))
-#
-# optimizer = RMSprop(lr=0.001)
-# model.compile(loss='categorical_crossentropy', optimizer=optimizer, metrics=['accuracy'])
+model = Sequential()
+
+model.add(GRU(len(chars) * 5, input_shape=(SEQUENCE_LENGTH, len(chars))))
+model.add(Activation('selu'))
+model.add(BatchNormalization())
+
+model.add(Dense(len(chars) * 2))
+model.add(Activation('selu'))
+model.add(BatchNormalization())
+
+model.add(Dense(len(chars) * 2))
+model.add(Activation('selu'))
+model.add(BatchNormalization())
+
+model.add(Dense(len(chars)))
+model.add(Activation('softmax'))
+
+optimizer = RMSprop(lr=0.001)
+model.compile(loss='categorical_crossentropy', optimizer=optimizer, metrics=['accuracy'])
+
+model.summary()
 
 with open("models/Trump/" + str(timestr) + "/" + 'index.txt', 'w') as file:
     file.write('\ncorpus length: ' + str(len(text)))
     file.write(f'\nunique chars: {len(chars)}')
     file.write('\nSequence_Length: ' + str(SEQUENCE_LENGTH))
-    file.write('\nStep: '+  str(step))
+    file.write('\nStep: '+  str(step) + "\n")
+    model.summary(print_fn=lambda x: file.write(x + '\n'))
     # file.write(chars)
     # file.write(model.summary())
 
-history = model.fit(X, y, validation_split=0.05, batch_size=124, epochs=6, shuffle=True, callbacks=[checkpoint,reduce_lr]).history
+history = model.fit(X, y, validation_split=0.05, batch_size=124, epochs=4, shuffle=True, callbacks=[checkpoint,reduce_lr]).history
