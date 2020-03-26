@@ -1,4 +1,3 @@
 models/Trump/*
 !models/Trump/Summary.txt
 data/trump/speeches/raw/github/*
-~$experiments.xlsx

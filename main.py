@@ -131,7 +131,7 @@ with open("models/Trump/" + str(timestr) + "/" + 'index.txt', 'w') as file:
     # file.write(chars)
     # file.write(model.summary())
 
-history = model.fit(X, y, validation_split=0.05, batch_size=124, epochs=4, shuffle=True, callbacks=[checkpoint,reduce_lr]).history
+history = model.fit(X, y, validation_split=0.05, batch_size=148, epochs=4, shuffle=True, callbacks=[checkpoint,reduce_lr]).history
 
 '''
 |- 20200324-204855:        GRU Base (D = Tweets v1, Github, FactBase(3/23)) - 0.6619
