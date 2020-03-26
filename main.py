@@ -132,3 +132,18 @@ with open("models/Trump/" + str(timestr) + "/" + 'index.txt', 'w') as file:
     # file.write(model.summary())
 
 history = model.fit(X, y, validation_split=0.05, batch_size=124, epochs=4, shuffle=True, callbacks=[checkpoint,reduce_lr]).history
+
+'''
+|- 20200324-204855:        GRU Base (D = Tweets v1, Github, FactBase(3/23)) - 0.6619
+   |- 20200325-014254:     GRU Base (Continued)  (D = Tweets v1, Github, FactBase(3/23)) - 0.66178
+   |- 20200325-164139:     GRU Base w/ BN & SELU (D = Tweets v2, Github, FactBase(3/24)) - 0 (RUNNING)
+     |- PLANNED:           GRU Base w/ BN & SELU Batch = 148 (D = Tweets v2, Github, FactBase(3/24)) - 0
+     |- PLANNED:           GRU Base w/ BN & SELU Batch = 100 (D = Tweets v2, Github, FactBase(3/24)) - 0
+   |- 20200325-102310:     GRU Base w/ SELU & BN (D = Tweets v1) - 0.59794
+     |- 20200325-113640:   GRU Base w/ SELU & BN (D = Tweets v1, Github, FactBase(3/24)) - 0.6711
+       |- 20200325-145253: GRU Base w/ SELU & BN Not Shuffled (D = Tweets v1, Github, FactBase(3/24)) - 0.6272
+   |- 20200324-220128:     GRU Base - Tweets Only (D = Tweets v1) - 0.59347
+      |- 20200324-225921:  GRU Base - Wider (D = Tweets v1) - 0.59217
+      |- 20200325-081236:  GRU Base - Deeper (D = Tweets v1) - 0.59403
+      |- 20200325-091649:  GRU Base w/ SELU (D = Tweets v1) - 0.59142
+'''

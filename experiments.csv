@@ -1,5 +1,5 @@
 ﻿ID,YYYYMMDD-HHMMSS,20200324-204855,20200325-014254,20200324-220128,20200324-225921,20200325-081236,20200325-091649,20200325-102310,20200325-113640,20200325-145253,20200325-164139,PLANNED,PLANNED
-,Parent,,20200324-204855,20200324-204855,20200324-220128,20200324-220128,20200324-220128,20200325-091649,20200324-204855,20200325-113640,20200324-204855,20200325-113640,20200325-113640
+,Parent,,20200324-204855,20200324-204855,20200324-220128,20200324-220128,20200324-220128,20200324-204855,20200325-102310,20200325-113640,20200324-204855,20200325-164139,20200325-164139
 ,Continued Training,,20200324-204855,,,,,,,,,,
 Dataset,Sources,"Tweets v1, Github, FactBase(3/23)","Tweets v1, Github, FactBase(3/23)",Tweets v1,Tweets v1,Tweets v1,Tweets v1,Tweets v1,"Tweets v1, Github, FactBase(3/24)","Tweets v1, Github, FactBase(3/24)","Tweets v2, Github, FactBase(3/24)","Tweets v2, Github, FactBase(3/24)","Tweets v2, Github, FactBase(3/24)"
 ,Unique Chars,67,67,66,66,66,66,66,67,67,67,67,67
@@ -20,11 +20,12 @@ Train Results,Best Epoch,2,2,4,5,5,4,5,3,1,,,
 ,Training Time (Seconds),,2700,630,630,630,630,700,3586,3341,,,
 Test Results,Accuracy,0.6619,0.66178,0.59347,0.59217,0.59403,0.59142,0.59794,0.6711,0.6272,,,
 ,Loss,1.1111,1.1027,1.4322,1.4197,1.424,1.4398,1.4001,1.0787,1.4808,,,
-Notes,,One of the best models so far. Widening of the network incressed accuracy significantly. Also only using signle step. I think that this is fine and provides more training examples. ,Continued training from the 20200324-204855 model. Training diverged. Accuracy fell significantly. Total epochs trained: 4 ,Same model as 20200324-204855 but only trained on tweets. Using smaller dataset to try and get a model that can do better on training. ,Slightly wider model than 20200324-220128.,Slightly deeper model than 20200324-220128.,Same model as 20200324-220128 Simple mistakes: The dense layers did not have activation functions. Activation functions don't seem to help or have any effect… Very confused.,Adding batch normalization to 20200325-091649. Saw improvements over base model,"Adding more data, activation functions, and batch normalization to 20200324-204855 Stoped early, training started to diverge",Exact same model as 20200325-113640 but shuffeled is FALSE. Stoped early because training was diverging,Using new tweet dataset and switching order of batchnormalization due to this article https://stackoverflow.com/questions/39691902/ordering-of-batch-normalization-and-dropout,Using the best architecture from either 20200325-113640 or 20200325-164139. Change batch size to 148 from 124,Using the best architecture from either 20200325-113640 or 20200325-164139. Change batch size to 100 from 124
+Notes,Long,One of the best models so far. Widening of the network incressed accuracy significantly. Also only using signle step. I think that this is fine and provides more training examples. ,Continued training from the 20200324-204855 model. Training diverged. Accuracy fell significantly. Total epochs trained: 4 ,Same model as 20200324-204855 but only trained on tweets. Using smaller dataset to try and get a model that can do better on training. ,Slightly wider model than 20200324-220128.,Slightly deeper model than 20200324-220128.,Same model as 20200324-220128 Simple mistakes: The dense layers did not have activation functions. Activation functions don't seem to help or have any effect… Very confused.,Adding batch normalization to 20200325-091649. Saw improvements over base model,"Adding more data, activation functions, and batch normalization to 20200324-204855 Stoped early, training started to diverge",Exact same model as 20200325-113640 but shuffeled is FALSE. Stoped early because training was diverging,Using new tweet dataset and switching order of batchnormalization due to this article https://stackoverflow.com/questions/39691902/ordering-of-batch-normalization-and-dropout,Using the best architecture from either 20200325-113640 or 20200325-164139. Change batch size to 148 from 124,Using the best architecture from either 20200325-113640 or 20200325-164139. Change batch size to 100 from 124
 ,,,,,,,,,,,,,
 ,,,,,,,,,,,,,
 ,,,,,,,,,,,,,
 ,,,,,,,,,,,,,
+,Short,"GRU Base (D = Tweets v1, Github, FactBase(3/23))","GRU Base (Continued)  (D = Tweets v1, Github, FactBase(3/23))",GRU Base - Tweets Only (D = Tweets v1),GRU Base - Wider (D = Tweets v1),GRU Base - Deeper (D = Tweets v1),GRU Base w/ SELU (D = Tweets v1),GRU Base w/ SELU & BN (D = Tweets v1),"GRU Base w/ SELU & BN (D = Tweets v1, Github, FactBase(3/24))","GRU Base w/ SELU & BN Not Shuffled (D = Tweets v1, Github, FactBase(3/24))","GRU Base w/ BN & SELU (D = Tweets v2, Github, FactBase(3/24))","GRU Base w/ BN & SELU Batch = 148 (D = Tweets v2, Github, FactBase(3/24))","GRU Base w/ BN & SELU Batch = 100 (D = Tweets v2, Github, FactBase(3/24))"
 Model,Input Layer,"GRU(Sequence Length, Unique Chars)",,,"GRU(Sequence Length, Unique Chars)","GRU(Sequence Length, Unique Chars)","GRU(Sequence Length, Unique Chars)","GRU(Sequence Length, Unique Chars)",,,"GRU(Sequence Length, Unique Chars)",,
 ,Layer 1,Unique Chars * 5,,,Unique Chars * 5,Unique Chars * 5,Unique Chars * 5,Unique Chars * 5,,,Unique Chars * 5,,
 ,Layer 2,Unique Chars * 2,,,Unique Chars * 3,Unique Chars * 2,SELU,SELU,,,Batch Normalization,,
@@ -38,7 +39,6 @@ Model,Input Layer,"GRU(Sequence Length, Unique Chars)",,,"GRU(Sequence Length, U
 ,Layer 10,,,,,,,Unique Chars,,,Unique Chars,,
 ,Layer 11,,,,,,,Softmax,,,Softmax,,
 ,Layer 12,,,,,,,,,,,,
-,,,,,,,,,,,,,
 ,,,,,,,,,,,,,
 ,,,,,,,,,,,,,
 ,,,,,,,,,,,,,
