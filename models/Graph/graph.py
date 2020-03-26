@@ -1,4 +1,5 @@
 import csv
+import time
 import numpy as np
 
 class Node(object):
@@ -61,7 +62,7 @@ class Node(object):
             if Acc[maxIndex].acc <= Acc[i].acc:
                 maxIndex = i
             pass
-        return Acc[i]
+        return Acc[maxIndex]
 
 def pprint_tree(node, file=None, _prefix="", _last=True):
     print(_prefix, "|- " if _last else "|- ", node.data + ": " + str(node.acc), ' (RUNNING)' if (node.acc == 0 and node.data != 'PLANNED') else '', sep="", file=file)
@@ -80,7 +81,7 @@ def getData():
         for i, row in enumerate(reader):
             if i == 0:
                 IDS = row[2:]
-            if row[0] == 'PARENT':
+            if row[1] == 'Parent':
                 PARENTS = row[2:]
             if row[0] == 'Test Results':
                 testAcc = row[2:]
@@ -113,3 +114,10 @@ for tree in forest:
 
 BestModel = forest[0].findMax()
 print("\n Best Model: " + BestModel.data + " - " + str(BestModel.acc))
+
+with open('../Trump/Summary.txt', 'w') as out:
+    timestr = time.strftime("%Y%m%d-%H%M%S\n")
+    print(timestr, file=out)
+    for tree in forest:
+        pprint_tree(tree, file=out)
+    print("\n Best Model: " + BestModel.data + " - " + str(BestModel.acc), file=out)

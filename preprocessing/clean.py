@@ -13,6 +13,9 @@ def removeLinks(text):
 def removeEmojis(text):
     return text.encode('ascii', 'ignore').decode('ascii')
 
+def removeEllipsis(text):
+    return re.sub('\.\.[\.]*', " ", text)
+
 def removeParens(text):
     return re.sub("[\(\[].*?[\)\]]", "", text)
 
@@ -36,19 +39,20 @@ def removeLF(text):
     text = re.sub(' [ ]*', ' ', text)
     return text
 
-path = '../data/trump/speeches/clean/concatSpeech.txt'
+path = '../data/trump/tweets/clean/cleanTweets.txt'
 text = open(path, encoding="utf8").read().lower()
 text = removeLinks(text)
 text = removeEmojis(text)
-text = removeParens(text)
-text = removeSpeaker(text)
+# text = removeParens(text)
+# text = removeSpeaker(text)
+text = removeEllipsis(text)
 text = removeLF(text)
 # text = expandContractions(text)
 
-tc = open("../data/trump/speeches/clean/cleanSpeech.txt","w", encoding="utf8")
+tc = open("../data/trump/tweets/clean/cleanTweets2.txt","w", encoding="utf8")
 tc.write(text)
 
-os.remove("../data/trump/speeches/clean/concatSpeech.txt")
+# os.remove("../data/trump/speeches/clean/concatSpeech.txt")
 
 # Tweets + Github Speeches + 20 Most recent
 # corpus length: 23321467

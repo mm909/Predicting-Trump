@@ -102,16 +102,17 @@ checkpoint = keras.callbacks.callbacks.ModelCheckpoint(filepath, monitor='val_ac
 model = Sequential()
 
 model.add(GRU(len(chars) * 5, input_shape=(SEQUENCE_LENGTH, len(chars))))
-model.add(Activation('selu'))
 model.add(BatchNormalization())
+model.add(Activation('selu'))
+model.add(Dropout(0.2))
 
 model.add(Dense(len(chars) * 2))
-model.add(Activation('selu'))
 model.add(BatchNormalization())
+model.add(Activation('selu'))
 
 model.add(Dense(len(chars) * 2))
-model.add(Activation('selu'))
 model.add(BatchNormalization())
+model.add(Activation('selu'))
 
 model.add(Dense(len(chars)))
 model.add(Activation('softmax'))
