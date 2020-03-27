@@ -10,9 +10,7 @@ from flask import request
 app = Flask(__name__)
 
 def load_keras_model():
-    # model = load_model('D:/Predictive-Text/Best Model/Character Prediction/weights-improvement-10-0.6166.hdf5')
-    return load_model('D:/Predictive-Text/Best Model/Trump.hdf5')
-
+    return load_model('D:/Predictive-Text/best/Trump.hdf5')
 
 model = load_keras_model()
 
@@ -120,4 +118,4 @@ def predict():
 @app.route("/")
 def index():
     return render_template('index.html')
-app.run(host='0.0.0.0', port=50000)
+app.run(host='0.0.0.0', port=50000, threaded=False)

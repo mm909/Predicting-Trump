@@ -10,6 +10,7 @@ from keras.models import Sequential, load_model
 from keras.layers import Dense, Activation, LSTM, Dropout, GRU, TimeDistributed, BatchNormalization
 from keras.layers.core import Dense, Activation, Dropout, RepeatVector
 from keras.optimizers import RMSprop
+from MLEXPS.MLEXPS import *
 
 def prepare_input(text):
     x = np.zeros((1, SEQUENCE_LENGTH, len(chars)))
@@ -70,7 +71,7 @@ indices_char = dict((i, c) for i, c in enumerate(chars))
 
 print(f'unique chars: {len(chars)}')
 
-SEQUENCE_LENGTH = 20
+SEQUENCE_LENGTH = 25
 step = 1
 sentences = []
 next_chars = []
@@ -89,22 +90,12 @@ for i, sentence in enumerate(sentences):
 print("X.shape:", X.shape)
 print("y.shape:", y.shape)
 
-os.makedirs("models/Trump/" + str(timestr), exist_ok=True)
-filepath = "models/Trump/" + str(timestr) + "/" + "weights-improvement-{epoch:02d}-{val_accuracy:.4f}.hdf5"
-copyfile('main.py', "models/Trump/" + str(timestr) + "/main.py")
-reduce_lr = keras.callbacks.callbacks.ReduceLROnPlateau(monitor='val_accuracy', factor=0.7, patience=2, min_lr=0.00001)
-checkpoint = keras.callbacks.callbacks.ModelCheckpoint(filepath, monitor='val_accuracy', verbose=1, save_best_only=True, mode='max')
-
-# model = load_model('D:/Predictive-Text/models/Trump/20200324-181225/weights-improvement-01-0.6565.hdf5')
-# model = load_model('D:/Predictive-Text/models/Trump/20200324-204855/weights-improvement-01-0.6619.hdf5')
-
 # Making Model
 model = Sequential()
 
 model.add(GRU(len(chars) * 5, input_shape=(SEQUENCE_LENGTH, len(chars))))
 model.add(BatchNormalization())
 model.add(Activation('selu'))
-model.add(Dropout(0.2))
 
 model.add(Dense(len(chars) * 2))
 model.add(BatchNormalization())
@@ -120,18 +111,22 @@ model.add(Activation('softmax'))
 optimizer = RMSprop(lr=0.001)
 model.compile(loss='categorical_crossentropy', optimizer=optimizer, metrics=['accuracy'])
 
-model.summary()
+models = [model]
+args = [{'x':X,
+         'y':y,
+         'batch_size':124,
+         'epochs':4,
+         'shuffle':True,
+         'validation_split':0.05}]
 
-with open("models/Trump/" + str(timestr) + "/" + 'index.txt', 'w') as file:
-    file.write('\ncorpus length: ' + str(len(text)))
-    file.write(f'\nunique chars: {len(chars)}')
-    file.write('\nSequence_Length: ' + str(SEQUENCE_LENGTH))
-    file.write('\nStep: '+  str(step) + "\n")
-    model.summary(print_fn=lambda x: file.write(x + '\n'))
-    # file.write(chars)
-    # file.write(model.summary())
+ml = MLEXPS()
+ml.setTopic('predictiveTrump')
+ml.setCopyFileList(['train.py'])
+ml.setModels(models)
+ml.setArgList(args)
+ml.startExprQ()
 
-history = model.fit(X, y, validation_split=0.05, batch_size=148, epochs=4, shuffle=True, callbacks=[checkpoint,reduce_lr]).history
+# history = model.fit(X, y, validation_split=0.05, batch_size=100, epochs=4, shuffle=True, callbacks=[checkpoint,reduce_lr]).history
 
 '''
 |- 20200324-204855:        GRU Base (D = Tweets v1, Github, FactBase(3/23)) - 0.6619
