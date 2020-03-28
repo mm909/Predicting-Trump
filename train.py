@@ -71,7 +71,7 @@ indices_char = dict((i, c) for i, c in enumerate(chars))
 
 print(f'unique chars: {len(chars)}')
 
-SEQUENCE_LENGTH = 25
+SEQUENCE_LENGTH = 20
 step = 1
 sentences = []
 next_chars = []
@@ -93,18 +93,10 @@ print("y.shape:", y.shape)
 # Making Model
 model = Sequential()
 
-model.add(GRU(len(chars) * 5, input_shape=(SEQUENCE_LENGTH, len(chars))))
-model.add(BatchNormalization())
-model.add(Activation('selu'))
-
-model.add(Dense(len(chars) * 2))
-model.add(BatchNormalization())
-model.add(Activation('selu'))
-
-model.add(Dense(len(chars) * 2))
-model.add(BatchNormalization())
-model.add(Activation('selu'))
-
+model.add(LSTM(len(chars) * 5, return_sequences=True, input_shape=(SEQUENCE_LENGTH, len(chars))))
+model.add(Dropout(0.2))
+model.add(LSTM(len(chars) * 5))
+model.add(Dropout(0.2))
 model.add(Dense(len(chars)))
 model.add(Activation('softmax'))
 
@@ -116,7 +108,7 @@ args = [{'x':X,
          'y':y,
          'batch_size':124,
          'epochs':4,
-         'shuffle':True,
+         'shuffle':False,
          'validation_split':0.05}]
 
 ml = MLEXPS()
@@ -125,20 +117,3 @@ ml.setCopyFileList(['train.py'])
 ml.setModels(models)
 ml.setArgList(args)
 ml.startExprQ()
-
-# history = model.fit(X, y, validation_split=0.05, batch_size=100, epochs=4, shuffle=True, callbacks=[checkpoint,reduce_lr]).history
-
-'''
-|- 20200324-204855:        GRU Base (D = Tweets v1, Github, FactBase(3/23)) - 0.6619
-   |- 20200325-014254:     GRU Base (Continued)  (D = Tweets v1, Github, FactBase(3/23)) - 0.66178
-   |- 20200325-164139:     GRU Base w/ BN & SELU (D = Tweets v2, Github, FactBase(3/24)) - 0 (RUNNING)
-     |- PLANNED:           GRU Base w/ BN & SELU Batch = 148 (D = Tweets v2, Github, FactBase(3/24)) - 0
-     |- PLANNED:           GRU Base w/ BN & SELU Batch = 100 (D = Tweets v2, Github, FactBase(3/24)) - 0
-   |- 20200325-102310:     GRU Base w/ SELU & BN (D = Tweets v1) - 0.59794
-     |- 20200325-113640:   GRU Base w/ SELU & BN (D = Tweets v1, Github, FactBase(3/24)) - 0.6711
-       |- 20200325-145253: GRU Base w/ SELU & BN Not Shuffled (D = Tweets v1, Github, FactBase(3/24)) - 0.6272
-   |- 20200324-220128:     GRU Base - Tweets Only (D = Tweets v1) - 0.59347
-      |- 20200324-225921:  GRU Base - Wider (D = Tweets v1) - 0.59217
-      |- 20200325-081236:  GRU Base - Deeper (D = Tweets v1) - 0.59403
-      |- 20200325-091649:  GRU Base w/ SELU (D = Tweets v1) - 0.59142
-'''

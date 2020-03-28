@@ -77,7 +77,7 @@ def getData():
     IDS = []
     PARENTS = []
     DATA = {}
-    with open('D:/Predictive-Text/experiments.csv') as csvfile:
+    with open('D:/Predictive-Text/experiments/predictiveTrump/experiments.csv') as csvfile:
         reader = csv.reader(csvfile)
         for i, row in enumerate(reader):
             if i == 0:
@@ -120,7 +120,7 @@ for tree in forest:
 BestModel = forest[0].findMax()
 print("\n Best Model: " + BestModel.data + " - " + str(BestModel.acc))
 
-with open('../Trump/Summary.txt', 'w') as out:
+with open('D:/Predictive-Text/experiments/predictiveTrump/Summary.txt', 'w') as out:
     timestr = time.strftime("%Y%m%d-%H%M%S\n")
     print(timestr, file=out)
     for tree in forest:
