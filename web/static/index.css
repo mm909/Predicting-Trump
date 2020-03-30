@@ -20,6 +20,12 @@ body {
   display: inline-block;
 }
 
+.predictedpart{
+  color: white;
+
+}
+.base {
+}
 
 
 .search {

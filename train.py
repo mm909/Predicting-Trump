@@ -71,8 +71,8 @@ indices_char = dict((i, c) for i, c in enumerate(chars))
 
 print(f'unique chars: {len(chars)}')
 
-SEQUENCE_LENGTH = 20
-step = 1
+SEQUENCE_LENGTH = 80
+step = 4
 sentences = []
 next_chars = []
 for i in range(0, len(text) - SEQUENCE_LENGTH, step):
@@ -93,12 +93,24 @@ print("y.shape:", y.shape)
 # Making Model
 model = Sequential()
 
-model.add(LSTM(len(chars) * 5, return_sequences=True, input_shape=(SEQUENCE_LENGTH, len(chars))))
-model.add(Dropout(0.2))
-model.add(LSTM(len(chars) * 5))
-model.add(Dropout(0.2))
+model.add(LSTM(len(chars) * 5, input_shape=(SEQUENCE_LENGTH, len(chars))))
+model.add(BatchNormalization())
+model.add(Activation('selu'))
+
+model.add(Dense(len(chars) * 2))
+model.add(BatchNormalization())
+model.add(Activation('selu'))
+
+model.add(Dense(len(chars) * 2))
+model.add(BatchNormalization())
+model.add(Activation('selu'))
+
 model.add(Dense(len(chars)))
 model.add(Activation('softmax'))
+
+optimizer = RMSprop(lr=0.001)
+model.compile(loss='categorical_crossentropy', optimizer=optimizer, metrics=['accuracy'])
+
 
 optimizer = RMSprop(lr=0.001)
 model.compile(loss='categorical_crossentropy', optimizer=optimizer, metrics=['accuracy'])

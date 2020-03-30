@@ -4,12 +4,13 @@ from os.path import isfile, join
 import time
 from shutil import copyfile
 import keras
-
+from keras.utils import plot_model
+import matplotlib.pyplot as plt
 
 class MLEXPS:
 
     def __init__(self):
-        print('MLEXPS v1')
+        print('MLEXPS v2')
         self.topic = 'TOPIC'
         self.baseFolder = 'experiments'
         self.exprTimeStamp = 0
@@ -42,7 +43,27 @@ class MLEXPS:
             self.currArgs['callbacks'].append(checkpoint)
         else:
             self.currArgs['callbacks'] = [checkpoint]
-        self.currModel.fit(**self.currArgs)
+        history = self.currModel.fit(**self.currArgs)
+
+        # Also need to save the raw numbers
+        plt.plot(history.history['accuracy'])
+        plt.plot(history.history['val_accuracy'])
+        plt.title('Model accuracy')
+        plt.ylabel('Accuracy')
+        plt.xlabel('Epoch')
+        plt.legend(['Train', 'Test'], loc='upper left')
+        plt.savefig(self.exprFilePath + '/logs/accuracy.png')
+        plt.close()
+
+        plt.plot(history.history['loss'])
+        plt.plot(history.history['val_loss'])
+        plt.title('Model loss')
+        plt.ylabel('Loss')
+        plt.xlabel('Epoch')
+        plt.legend(['Train', 'Test'], loc='upper left')
+        plt.savefig(self.exprFilePath + '/logs/loss.png')
+        plt.close()
+
         self.cleanUpWeights()
         return
 
@@ -66,6 +87,7 @@ class MLEXPS:
         if(self.currModel):
             with open(self.baseFolder + "/" + self.topic + "/" + str(self.exprTimeStamp) + '/logs' + '/summary.txt', 'w') as file:
                 self.currModel.summary(print_fn=lambda x: file.write(x + '\n'))
+        plot_model(self.currModel, to_file=self.exprFilePath + '/logs/model.png')
         return
 
     def cleanUpWeights(self):

@@ -14,7 +14,7 @@ def load_keras_model():
 
 model = load_keras_model()
 
-SEQUENCE_LENGTH = 20
+SEQUENCE_LENGTH = 80
 
 # Gettings data
 speeches = '../data/trump/speeches/clean/cleanSpeech.txt'

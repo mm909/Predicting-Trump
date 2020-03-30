@@ -26,7 +26,6 @@ function predict() {
     }, function(data) {
       $("#resultsHook").empty()
       for (var i = 0; i < data.result.length; i++) {
-        // console.log(data.result[i]);
         item = `<div class="resultBox">
                     <p class="result">` + data.result[i] + `</p>
                 </div>`
