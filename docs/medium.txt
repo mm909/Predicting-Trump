@@ -1,0 +1,13 @@
+______________
+
+I just read through it, I think it's good but there's a few things I would bring up:
+First of all, since you are trying to predict tweets I think interviews seem less helpful. Tweets/speeches are a one-sided conversation sort of, but interviews could change the language he's using based on the question being asked/who's asking. It might mean more data, but it could also be contaminating it in a way. Up to you though.
+Second, when you are talking about the results you say it has a 67% accuracy with 1.1 loss. The accuracy is a lot better than random, but what if you compared to giving that same information to a regular person and asking them to finish the tweet? It could make what you've done look much more impressive than just saying it's better than random guesses. Also, and this could just be me, I have no idea what a 1.1 loss means, an explanation of what it means would be nice.
+Finally, maybe something else you could consider implementing/talking about for improvements could be how old some of these tweets are. ie weighting more recent tweets a little bit more than older ones since it's more likely he'll talk about something like an ongoing event in place A now than a similar event that happened in place B 3 years ago.
+Let me know if this doesn't make sense or something, I did find it really interesting.
+______________
+
+The only editing I would suggest is when you are talking about your methods and results you should avoid personal pronouns. It just keeps an objective tone and minimizes bias. And the I is understood because anything not sited should be yours.
+______________
+
+I think it could do with a few more examples at the end, i almost missed it!

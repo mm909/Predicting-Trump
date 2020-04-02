@@ -2,13 +2,16 @@ from keras.models import load_model
 import numpy as np
 import heapq
 
-model = load_model('models/Trump/20200318-162752/weights-improvement-08-0.5838.hdf5')
+# model = load_model('models/Trump/20200318-162752/weights-improvement-08-0.5838.hdf5')
+model = load_model('D:/Predictive-Text/experiments/predictiveTrump/20200327-095125/weights/weights-improvement-04-0.6693.hdf5')
 
 SEQUENCE_LENGTH = 40
 
 # Gettings data
-path = 'trump.txt'
-text = open(path, encoding="utf8").read().lower()
+speeches = 'data/trump/speeches/clean/cleanSpeech.txt'
+tweets = 'data/trump/tweets/clean/cleanTweets.txt'
+text = open(tweets, encoding="utf8").read().lower()
+text = text + open(speeches, encoding="utf8").read().lower()
 print('corpus length:', len(text))
 
 chars = sorted(list(set(text)))
@@ -20,6 +23,9 @@ def sample(preds, top_n=3):
     preds = np.log(preds)
     exp_preds = np.exp(preds)
     preds = exp_preds / np.sum(exp_preds)
+    print(preds)
+    for index in heapq.nlargest(5, range(len(preds)), preds.take):
+        print(indices_char[index], preds[index])
     return heapq.nlargest(top_n, range(len(preds)), preds.take)
 
 def prepare_input(text):
@@ -59,9 +65,6 @@ def predict_completions(text, n=3):
 # print(predict_completions(seq, 1))
 # print()
 
-text = 'Today I spoke with American physicians and nurses to thank them for their tireless work. Doctors and nurses are at the front lines of this war and are true American HEROES! With their help, America will WIN.'
-print(text[-20:])
-
 def genSentence(text, words = 2):
     textOG = text
     text = text.lower()
@@ -77,4 +80,4 @@ def genSentence(text, words = 2):
         pass
     return textOG
 
-print(genSentence("Women ", 100))
+print(genSentence("Today I ", 1))

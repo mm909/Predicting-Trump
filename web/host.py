@@ -10,11 +10,15 @@ from flask import request
 app = Flask(__name__)
 
 def load_keras_model():
-    return load_model('D:/Predictive-Text/best/Trump.hdf5')
+    # return load_model('D:/Predictive-Text/best/Trump.hdf5')
+
+    return load_model('D:/Predictive-Text/experiments/predictiveTrump/20200327-095125/weights/weights-improvement-04-0.6693.hdf5')
+    return load_model('D:/Predictive-Text/experiments/predictiveTrump/20200327-131735/weights/weights-improvement-04-0.6673.hdf5')
+    return load_model('D:/Predictive-Text/experiments/predictiveTrump/20200329-145328/weights/weights-improvement-04-0.6736.hdf5')
 
 model = load_keras_model()
 
-SEQUENCE_LENGTH = 80
+SEQUENCE_LENGTH = 40
 
 # Gettings data
 speeches = '../data/trump/speeches/clean/cleanSpeech.txt'

@@ -8,6 +8,7 @@ import tensorflow as tf
 from shutil import copyfile
 from keras.models import Sequential, load_model
 from keras.layers import Dense, Activation, LSTM, Dropout, GRU, TimeDistributed, BatchNormalization
+from keras.layers import CuDNNLSTM 
 from keras.layers.core import Dense, Activation, Dropout, RepeatVector
 from keras.optimizers import RMSprop
 from MLEXPS.MLEXPS import *
@@ -91,9 +92,11 @@ print("X.shape:", X.shape)
 print("y.shape:", y.shape)
 
 # Making Model
+# model = load_model('D:/Predictive-Text/experiments/predictiveTrump/20200330-140314/weights/weights-improvement-04-0.6747.hdf5')
+
 model = Sequential()
 
-model.add(LSTM(len(chars) * 5, input_shape=(SEQUENCE_LENGTH, len(chars))))
+model.add(CuDNNLSTM(len(chars) * 5, input_shape=(SEQUENCE_LENGTH, len(chars))))
 model.add(BatchNormalization())
 model.add(Activation('selu'))
 
@@ -109,23 +112,22 @@ model.add(Dense(len(chars)))
 model.add(Activation('softmax'))
 
 optimizer = RMSprop(lr=0.001)
-model.compile(loss='categorical_crossentropy', optimizer=optimizer, metrics=['accuracy'])
-
-
-optimizer = RMSprop(lr=0.001)
+# reduce_lr = keras.callbacks.callbacks.ReduceLROnPlateau(monitor='val_accuracy', factor=0.7, patience=2, min_lr=0.00001)
 model.compile(loss='categorical_crossentropy', optimizer=optimizer, metrics=['accuracy'])
 
 models = [model]
 args = [{'x':X,
          'y':y,
          'batch_size':124,
-         'epochs':4,
+         'epochs':50,
          'shuffle':False,
-         'validation_split':0.05}]
+         'validation_split':0.05,}]
+         # 'callbacks': [reduce_lr]
 
 ml = MLEXPS()
 ml.setTopic('predictiveTrump')
 ml.setCopyFileList(['train.py'])
 ml.setModels(models)
 ml.setArgList(args)
+ml.saveBestOnly = False
 ml.startExprQ()
