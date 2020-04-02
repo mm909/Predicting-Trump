@@ -1,3 +1,0 @@
-To automate logs between exps
-to show graphs to compare exps
-to plan new exps
